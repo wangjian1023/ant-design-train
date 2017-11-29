@@ -32,7 +32,8 @@ const query = {
   },
 };
 
-class BasicLayout extends React.Component {
+
+class BasicLayout extends React.PureComponent {
   render() {
     const layout = (
       <Layout>

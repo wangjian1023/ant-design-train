@@ -1,4 +1,4 @@
-import { Layout, Menu, Icon } from 'antd';
+import { Layout, Menu, Icon, Breadcrumb } from 'antd';
 import React from 'react';
 import { connect } from 'dva';
 import { ContainerQuery } from 'react-container-query';
@@ -34,10 +34,23 @@ const query = {
 
 
 class BasicLayout extends React.PureComponent {
+  state = {
+    collapsed: false,
+  };
+  toggle = () => {
+    this.setState({
+      collapsed: !this.state.collapsed,
+    });
+  }
   render() {
     const layout = (
       <Layout>
-        <Sider width={200} style={{ background: '#fff' }}>
+        <Sider
+          width={200} style={{ background: '#fff' }}
+          trigger={null}
+          collapsible
+          collapsed={this.collapsed}
+        >
           <div className={styles.logo}>
             <Link to="/">
               <img src="https://gw.alipayobjects.com/zos/rmsportal/iwWyPinUoseUxIAeElSx.svg" alt="logo" />
@@ -71,9 +84,22 @@ class BasicLayout extends React.PureComponent {
           </Menu>
         </Sider>
         <Layout>
-          <Header>header</Header>
+          <Header>
+            <Icon
+              className={styles.trigger}
+              type={this.state.collapsed ? 'menu-unfold' : 'menu-fold'}
+              onClick={this.toggle}
+            />
+            <Breadcrumb>
+              <Breadcrumb.Item>Home</Breadcrumb.Item>
+              <Breadcrumb.Item>List</Breadcrumb.Item>
+              <Breadcrumb.Item>App</Breadcrumb.Item>
+            </Breadcrumb>
+          </Header>
           <Content style={{ minHeight: 'calc(100vh - 110px)' }}>main content</Content>
-          <Footer>footer</Footer>
+          <Layout>
+            <Footer>footer</Footer>
+          </Layout>
         </Layout>
       </Layout>
   );

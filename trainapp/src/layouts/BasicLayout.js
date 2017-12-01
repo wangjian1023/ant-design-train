@@ -1,16 +1,14 @@
-import { Layout, Menu, Icon, Breadcrumb } from 'antd';
+import { Layout, Menu, Breadcrumb, Icon } from 'antd';
 import React from 'react';
 import { connect } from 'dva';
 import { ContainerQuery } from 'react-container-query';
-import classNames from 'classnames';
+import classnames from 'classnames';
 import { Link } from 'dva/router';
 import styles from './BasicLayout.less';
 
-const { Header, Content, Footer, Sider } = Layout;
+const { Header, Footer, Sider, Content } = Layout;
 const { SubMenu } = Menu;
 
-
-// const SubMenu = Menu.SubMenu;
 const query = {
   'screen-xs': {
     maxWidth: 575,
@@ -32,11 +30,10 @@ const query = {
   },
 };
 
-
 class BasicLayout extends React.PureComponent {
   state = {
     collapsed: false,
-  };
+  }
   toggle = () => {
     this.setState({
       collapsed: !this.state.collapsed,
@@ -46,10 +43,12 @@ class BasicLayout extends React.PureComponent {
     const layout = (
       <Layout>
         <Sider
-          width={200} style={{ background: '#fff' }}
+          breakpoint="xs"
+          style={{ background: '#fff', padding: 0 }}
+          // collapsedWidth="0" 不显示图标，全部折叠进去
           trigger={null}
           collapsible
-          collapsed={this.collapsed}
+          collapsed={this.state.collapsed}
         >
           <div className={styles.logo}>
             <Link to="/">
@@ -57,26 +56,21 @@ class BasicLayout extends React.PureComponent {
               <h1>宠物交易平台</h1>
             </Link>
           </div>
-          <Menu
-            mode="inline"
-            defaultSelectedKeys={['1']}
-            defaultOpenKeys={['sub1']}
-            style={{ height: '100%', borderRight: 0 }}
-          >
-            <SubMenu key="sub1" title={<span><Icon type="user" />宠物猫</span>}>
-              <Menu.Item key="1">option1</Menu.Item>
-              <Menu.Item key="2">option2</Menu.Item>
+          <Menu>
+            <SubMenu key="sub1" title={<span><Icon type="user" /><span>宠物狗</span></span>}>
+              <Menu.Item key="1">2</Menu.Item>
+              <Menu.Item key="2">1</Menu.Item>
               <Menu.Item key="3">option3</Menu.Item>
               <Menu.Item key="4">option4</Menu.Item>
             </SubMenu>
-            <SubMenu key="sub2" title={<span><Icon type="laptop" />宠物狗</span>}>
-              <Menu.Item key="5">option5</Menu.Item>
-              <Menu.Item key="6">option6</Menu.Item>
-              <Menu.Item key="7">option7</Menu.Item>
-              <Menu.Item key="8">option8</Menu.Item>
+            <SubMenu key="sub2" title={<span><Icon type="laptop" /><span>宠物猫</span></span>}>
+              <Menu.Item key="5">1</Menu.Item>
+              <Menu.Item key="6">2</Menu.Item>
+              <Menu.Item key="7">3</Menu.Item>
+              <Menu.Item key="8">4</Menu.Item>
             </SubMenu>
-            <SubMenu key="sub3" title={<span><Icon type="notification" />鹦鹉</span>}>
-              <Menu.Item key="9">option9</Menu.Item>
+            <SubMenu key="sub3" title={<span><Icon type="notification" /><span>宠物鹦鹉</span></span>}>
+              <Menu.Item key="9">option16</Menu.Item>
               <Menu.Item key="10">option10</Menu.Item>
               <Menu.Item key="11">option11</Menu.Item>
               <Menu.Item key="12">option12</Menu.Item>
@@ -84,28 +78,40 @@ class BasicLayout extends React.PureComponent {
           </Menu>
         </Sider>
         <Layout>
-          <Header>
+          <Header style={{ background: '#fff', padding: 0 }}>
             <Icon
-              className={styles.trigger}
+              style={{ cursor: 'pointer', fontSize: 25 }}
+              className={this.state.trigger}
               type={this.state.collapsed ? 'menu-unfold' : 'menu-fold'}
-              onClick={this.toggle}
+              onClick={this.state.alttoggle}
             />
-            <Breadcrumb>
-              <Breadcrumb.Item>Home</Breadcrumb.Item>
-              <Breadcrumb.Item>List</Breadcrumb.Item>
-              <Breadcrumb.Item>App</Breadcrumb.Item>
-            </Breadcrumb>
           </Header>
-          <Content style={{ minHeight: 'calc(100vh - 110px)' }}>main content</Content>
-          <Layout>
-            <Footer>footer</Footer>
-          </Layout>
+          <Breadcrumb style={{ margin: '13px 0 0 18px' }}>
+            <Breadcrumb.Item>Home</Breadcrumb.Item>
+            <Breadcrumb.Item>List</Breadcrumb.Item>
+            <Breadcrumb.Item>App</Breadcrumb.Item>
+          </Breadcrumb>
+          <Content style={{ margin: '24px 16px', padding: 24, background: '#fff', minHeight: 600 }}>
+            Content
+          </Content>
+          <Footer
+            className={this.state.Footer}
+          >
+            <div>
+              <h4>
+                <a href="http://baidu.com" Target="_blank">Github</a>
+                <a href="http://ant.design" Target="_blank">Ant Design</a>
+                <p>Copyright <Icon type="copyright" /> github.com.com</p>
+              </h4>
+            </div>
+          </Footer>
         </Layout>
       </Layout>
-  );
+    );
+
     return (
       <ContainerQuery query={query}>
-        {params => <div className={classNames(params)}>{layout}</div>}
+        {params => <div className={classnames(params)}>{layout}</div>}
       </ContainerQuery>
     );
   }

@@ -81,7 +81,7 @@ class BasicLayout extends React.PureComponent {
   onMenuClick = ({ key }) => {
     if (key === 'logout') {
       this.props.dispatch({
-        type: 'login/logout',
+        type: 'login/logounpmt',
       });
     }
   }

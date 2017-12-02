@@ -19,7 +19,7 @@ const query = {
   },
   'screen-md': {
     minWidth: 768,
-    maxWidth: 991,
+    maxWidth: 992,
   },
   'screen-lg': {
     minWidth: 992,
